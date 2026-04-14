@@ -18,6 +18,7 @@ import pandas as pd          # Like Excel for Python — lets us work with table
 import plotly.express as px  # A charting library — creates bar charts, pie charts, line graphs etc.
 from datetime import date    # Lets us work with today's date (used in the Add Application form)
 import database as db        # Our own file (database.py) that handles saving/loading from SQLite
+import os                    # Used to check if sample_data.csv exists
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -64,6 +65,35 @@ st.markdown("""
 # ─────────────────────────────────────────────────────────────────────────────
 
 db.init_db()
+
+# ── Auto-load sample data on Streamlit Cloud ──────────────────────────────────
+# Streamlit Cloud resets the filesystem on every restart, so SQLite data is lost.
+# To keep the demo populated, we load from sample_data.csv if the DB is empty.
+# This runs silently every time — it only inserts if there are 0 records.
+def load_sample_data_if_empty():
+    import sqlite3, csv
+    CSV_PATH = "sample_data.csv"
+    if not os.path.exists(CSV_PATH):
+        return
+    conn = sqlite3.connect("jobs.db")
+    count = conn.execute("SELECT COUNT(*) FROM applications").fetchone()[0]
+    if count == 0:
+        with open(CSV_PATH, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                conn.execute("""
+                    INSERT INTO applications
+                        (company, role, location, salary, platform, status, date_applied, job_url, notes)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    row["company"], row["role"], row["location"], row["salary"],
+                    row["platform"], row["status"], row["date_applied"],
+                    row["job_url"], row["notes"]
+                ))
+        conn.commit()
+    conn.close()
+
+load_sample_data_if_empty()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
