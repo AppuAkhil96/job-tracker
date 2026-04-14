@@ -13,3 +13,4 @@
 streamlit>=1.32.0   # The web app framework — turns Python scripts into interactive UIs
 pandas>=2.0.0       # Data manipulation library — used to filter, sort and analyse your applications
 plotly>=5.18.0      # Charting library — creates the donut chart, line graph, and bar charts
+openpyxl>=3.1.0
