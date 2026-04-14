@@ -1,0 +1,15 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# REQUIREMENTS.TXT
+#
+# This file tells Python (via pip) which external libraries to install.
+# Run this command once to install everything:
+#
+#   pip install -r requirements.txt
+#
+# The >= means "this version or newer". Pinning to exact versions (==) is better
+# for production apps, but >= is fine for personal/portfolio projects.
+# ─────────────────────────────────────────────────────────────────────────────
+
+streamlit>=1.32.0   # The web app framework — turns Python scripts into interactive UIs
+pandas>=2.0.0       # Data manipulation library — used to filter, sort and analyse your applications
+plotly>=5.18.0      # Charting library — creates the donut chart, line graph, and bar charts

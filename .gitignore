@@ -1,0 +1,12 @@
+# SQLite database file — contains your personal data, don't commit to GitHub
+jobs.db
+
+# Python bytecode cache — auto-generated, not needed in the repo
+__pycache__/
+*.pyc
+
+# Environment variables file (if you add secrets later)
+.env
+
+# Streamlit secrets file (for API keys, database URLs etc.)
+.streamlit/secrets.toml
